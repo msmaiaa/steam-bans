@@ -1,7 +1,7 @@
 const User = require('../models/UserModel');
 const ObservedUser = require('../models/ObservedUserModel');
-const jwt = require("jsonwebtoken");
 const steam = require("../utils/steam");
+const verify = require("../utils/token");
 
 module.exports = {
     createUser: async (req,res) =>{
@@ -71,12 +71,3 @@ module.exports = {
     }
 }
 
-const verify = (token) =>{
-    return jwt.verify(token, process.env.JWT_SECRET, (err, decoded)=>{
-        if(err || !decoded){
-            return false
-        }else{
-            return decoded.user;
-        }
-    })
-}

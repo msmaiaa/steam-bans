@@ -18,6 +18,7 @@ const fetchProfiles = async(docs) =>{
             if(allProfiles[i].steamid == allStatus[j].SteamId){
                 delete allStatus[j].SteamId;
                 Object.assign(allProfiles[i], allStatus[j]);
+                break
             }
         }
     }
