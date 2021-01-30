@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const bodyparser = require('body-parser')
+const cors = require("cors");
 
 const api = require("./src/routes/api");
 const auth = require('./src/routes/auth');
@@ -14,6 +15,15 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "./src/views"));
 
+//for production
+// app.use(
+//     cors({
+//         origin: [process.env.BASE_URL],
+//         methods: ["GET", "POST"]
+//     })
+// )
+
+app.use(cors());
 app.use(bodyparser());
 app.use('/api', api);
 app.use('/auth', auth);
