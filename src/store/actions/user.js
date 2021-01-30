@@ -1,3 +1,16 @@
-const setUser = (payload) => ({ type: "SET_USER", payload})
+import axios from 'axios';
 
-module.exports.setUser = setUser;
+const apiUrl = process.env.REACT_APP_API_URL;
+
+export const setUser = (payload) => ({ type: "SET_USER", payload})
+
+export const autoLogin = () => dispatch =>{
+    const token = localStorage.getItem('token');
+    if(token){
+        axios.get(apiUrl + '/auth/steam/token/', {headers: {'Authorization': token}})
+        .then(res =>{
+            console.log(res);
+            dispatch(setUser(res.data.user));
+        })
+    }
+}
