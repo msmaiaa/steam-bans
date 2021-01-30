@@ -11,7 +11,7 @@ const Navbar = (props) =>{
                     <p>steam-bans</p>
                 </li>
                 <li className="navEnd">
-                    {props.usr.loggedIn ? <img src={props.usr.user.avatarmedium}></img> :
+                    {props.usr.loggedIn ? <img id="navImage" alt="userImage" src={props.usr.user.avatarmedium}></img> :
                     <SignUp/>
                     }
                 </li>

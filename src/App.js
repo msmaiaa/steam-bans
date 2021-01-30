@@ -19,7 +19,7 @@ function App(props) {
 
   return (
     <Router>
-      <div>
+      <div className="app">
         <Navbar/>
         <div className="pageContent"> 
           <Switch>
