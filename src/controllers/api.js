@@ -1,6 +1,7 @@
 const User = require('../models/UserModel');
 const ObservedUser = require('../models/ObservedUserModel');
 const jwt = require("jsonwebtoken");
+const steam = require("../utils/steam");
 
 module.exports = {
     createUser: async (req,res) =>{
@@ -41,16 +42,16 @@ module.exports = {
     getObservedUsersList: async (req,res) =>{
         const token = req.get('Authorization');
         const decoded = verify(token);
+
         if(!decoded){
             return res.status(401).json({message: 'Error with authorization token'})
         }
-        ObservedUser.find({observerId: decoded.steamid}, (err,docs)=>{
-            if(err){
-                return res.status(404).json({message: 'Error fetch observed users list'});
-            }
-            console.log(docs);
-            return res.status(200).json({message: 'Observed users fetched successfully', docs: docs});
-        })
+        const docs = await ObservedUser.find({observerId: decoded.steamid})
+        if(!docs){
+            return res.status(404).json({message: 'Error fetching observed users list'});
+        }
+        const profiles = await steam.fetchProfiles(docs);
+        return res.status(200).json({message: 'Observed users fetched successfully', docs: profiles});
     },
     changeEmail: async (req,res) =>{
         const token = req.get('Authorization')
