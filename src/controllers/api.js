@@ -33,6 +33,12 @@ module.exports = {
         if(!decoded){
             return res.status(401).json({message: 'Error with authorization token'})
         }
+        ObservedUser.find({steamid: decoded.steamid}, (err,docs)=>{
+            if(err){
+                return res.status(404).json({message: 'Error fetch observed users list'});
+            }
+            return res.status(200).json({message: docs});
+        })
     },
     changeEmail: async (req,res) =>{
         const token = req.get('Authorization')
