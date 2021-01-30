@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const path = require("path");
+const bodyparser = require('body-parser')
 
 const api = require("./src/routes/api");
 const auth = require('./src/routes/auth');
@@ -13,6 +14,7 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "./src/views"));
 
+app.use(bodyparser());
 app.use('/api', api);
 app.use('/auth', auth);
 app.use((req,res,next)=>{
