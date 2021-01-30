@@ -26,6 +26,12 @@ module.exports = {
         if(!decoded){
             return res.status(401).json({message: 'Error with authorization token'})
         }
+        const newObsUser = ObservedUser.create({
+            observerId: decoded.steamid,
+            steamid: req.body.steamid
+        })
+        await newUser.save();
+        return res.status(200);
     },
     getObservedUsersList: async (req,res) =>{
         const token = req.get('Authorization');
