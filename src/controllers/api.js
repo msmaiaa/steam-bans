@@ -16,7 +16,7 @@ module.exports = {
             if(hasUser) return res.status(300).json({message:'User already exists'});
                 
             const newUser = new User({
-                steamid: decoded.steamid,
+                steamid64: decoded.steamid,
                 email: ''
             })
             await newUser.save();
@@ -36,8 +36,8 @@ module.exports = {
             if (hasObsUser) return res.status(300).json({message:'Already observing the given steamid'});
     
             const newObsUser = new ObservedUser({
-                observerId: decoded.steamid,
-                steamid: req.body.steamid
+                observerId64: decoded.steamid,
+                steamid64: req.body.steamid
             })
             newObsUser.save((err,doc)=>{
                 if (err) return res.status(404).json({message:'Error while trying to create a new observed user'})
@@ -87,7 +87,14 @@ module.exports = {
         }catch(err){
             return res.status(404).json({message: 'Error while trying to update user', error:err});
         }
-
+    },
+    fetchObservedUser: async (req,res) =>{
+        let steamIds = await steam.fetchSingleProfile(req.body.data);
+        if(!steamIds){
+            return res.status(422).send({message:'Unable to find the given profile'});
+        }else{
+            console.log(steamIds);
+        }
     }
 }
 
