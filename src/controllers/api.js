@@ -89,11 +89,11 @@ module.exports = {
         }
     },
     fetchObservedUser: async (req,res) =>{
-        let steamIds = await steam.fetchSingleProfile(req.body.data);
-        if(!steamIds){
+        let profile = await steam.fetchSingleProfile(req.body.data);
+        if(!profile.steamid64){
             return res.status(422).send({message:'Unable to find the given profile'});
         }else{
-            console.log(steamIds);
+            return res.status(200).send({user: profile})
         }
     }
 }

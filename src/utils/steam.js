@@ -30,8 +30,18 @@ const fetchProfiles = async(docs) =>{
 }
 
 const fetchSingleProfile = async(steam) =>{
-    let steamIds = await regexSteam(steam);
-    return steamIds;
+    let profile = {};
+    const steamIds = await regexSteam(steam);
+    const statusResult = await axios.get(statusUrl + steamIds.steamid64);
+    const profilesResult = await axios.get(profileUrl + steamIds.steamid64);
+
+    Object.assign(profile, profilesResult.data.response.players[0]);
+    Object.assign(profile, statusResult.data.players[0]);
+    delete profile.steamid;
+    delete profile.SteamId;
+    Object.assign(profile, steamIds);
+
+    return profile;
 }
 
 const regexSteam = async(steam) =>{
