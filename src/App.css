@@ -10,8 +10,17 @@
   font-family: 'Lato', Arial, Helvetica, sans-serif;
 }
 
+ul{
+  list-style: none;
+}
+
+textarea:focus, input:focus, button:focus{
+  outline: none;
+}
+
 .app{
-  height: 100vh;
+  min-height: 100vh;
+  background-color: #1B2838;
 }
 
 .pageContent{
@@ -57,13 +66,110 @@
   border-radius: 50%;
   height: 30px;
   width: 30px;
+  border: 2px solid #47859D;
 }
 
 .home{
-  background-color: #1B2838;
   width: 100%;
   display: flex;
+  justify-content: center;
+}
+
+.homeContent{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 50px;
+  width: 40%;
 }
+
+.homeContent__title{
+  color: white;
+  font-size: 18px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.card{
+  margin-top: 5px;
+  background-color: white;
+  padding: 25px 15px 25px 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.shadow-black{
+  -webkit-box-shadow: 10px 10px 5px 2px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 5px 2px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 5px 2px rgba(0,0,0,0.75);
+}
+
+
+.homeContent__header-text{
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.text-strong{
+  font-weight: bold;
+  display: inline;
+}
+
+.supportedIds{
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
+}
+
+.supportedIds__title{
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.supportedIds__list{
+  margin-bottom: 25px;
+}
+
+.supportedIds__list-item{
+  color:#636363;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline;
+}
+
+.supportedIds__list-item:not(:last-child){
+  margin-right: 10px;
+}
+
+.searchInput{
+  background-color:#101822;
+  color: #9e9e9e;
+  height: 30px;
+  padding-left: 15px;
+}
+
+.buttonArea{
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.searchButton{
+  text-align: center;
+  padding: 10px 20px 10px 20px;
+  font-size: 16px;
+  background-color:#357097;
+  color: #9e9e9e;
+  transition: all .2s;
+  font-weight: 500;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.searchButton:hover{
+  cursor: pointer;
+  background-color: #CAD7E1;
+  color: black;
+  text-shadow: none;
+}
+
