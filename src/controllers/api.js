@@ -93,7 +93,7 @@ module.exports = {
         if(!profile.steamid64){
             return res.status(422).send({message:'Unable to find the given profile'});
         }else{
-            return res.status(200).send({user: profile})
+            return res.status(200).send({user: profile});
         }
     }
 }
