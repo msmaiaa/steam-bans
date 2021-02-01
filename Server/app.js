@@ -8,8 +8,8 @@ const audit = require('express-requests-logger')
 const bunyan = require('bunyan');
 let log = bunyan.createLogger({name: "app"});
 
-const api = require("./routes/api");
-const auth = require('./routes/auth');
+const api = require("./src/routes/api");
+const auth = require('./src/routes/auth');
 
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 5000;
@@ -47,7 +47,7 @@ app.use((req,res,next)=>{
     return res.status(404).send('Not found');
 })
 
-require("./config/steam")(app);
+require("./src/config/steam")(app);
 
 
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
