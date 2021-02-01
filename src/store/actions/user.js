@@ -9,6 +9,7 @@ export const autoLogin = () => dispatch =>{
     if(token){
         axios.get(apiUrl + '/auth/steam/token/', {headers: {'Authorization': token}})
         .then(res =>{
+            localStorage.setItem("token", res.data.token);
             dispatch(setUser(res.data.user));
         })
     }

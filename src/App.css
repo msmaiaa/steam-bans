@@ -158,6 +158,7 @@ textarea:focus, input:focus, button:focus{
 .searchButton{
   text-align: center;
   padding: 10px 20px 10px 20px;
+  margin-bottom: 25px;
   font-size: 16px;
   background-color:#357097;
   color: #9e9e9e;
@@ -173,3 +174,75 @@ textarea:focus, input:focus, button:focus{
   text-shadow: none;
 }
 
+.separator{
+  border-top: 1px solid #8c8b8b;
+}
+
+.banned{
+  display: inline;
+  font-weight: bold;
+  color: red;
+}
+
+.notBanned{
+  display: inline;
+  font-weight: bold;
+  color:#357097;
+}
+
+.results{
+  padding: 25px;
+}
+
+.results__header{
+display: flex;
+}
+
+.results__pic{
+  height: 150px;
+}
+
+.results__header-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 10px;
+  width: 100%;
+}
+
+.results__header-name{
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.results__field{
+  display: flex;
+}
+
+.results__header-text{
+  font-size: 16px;
+  width: 40%;
+  text-align: left;
+  margin-right: 10px;
+}
+
+.results__footer{
+  margin-top: 15px;
+}
+
+.results__footer-text{
+  font-size: 16px;
+  margin-bottom: 5px;
+  width: 25%;
+}
+
+.results__footer-result{
+  display: inline;
+  font-weight: bold;
+  background-color: #101822;
+  color: #9e9e9e;
+  width: 100%;
+  padding: 5px 8px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}

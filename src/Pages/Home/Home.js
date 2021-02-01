@@ -1,9 +1,23 @@
-import React from 'react';
+import React, {useState} from 'react';
+import Result from '../../components/Result/Result';
 
 export default function Home(){
+    const [searchInput, setSearchInput] = useState('');
+    const [searchValue, setSearchValue] = useState(null);
+    const [hasClicked, setClicked] = useState(null);
+    const [clickCount, setClickCount] = useState(0);
+
     const handleSearch = () =>{
-        console.log('search')
+        setClicked(true);
+        setClickCount(clickCount + 1);
+        setSearchValue(searchInput);
+        setSearchInput('');
     }
+
+    const onInputChange = (event) =>{
+        setSearchInput(event.target.value);
+    }
+
     return(
         <section className="home">
             <div className="homeContent">
@@ -23,10 +37,12 @@ export default function Home(){
                             <li className="supportedIds__list-item">Complete URL</li>
                         </ul>
                     </div>
-                    <input type="text" className="searchInput" placeholder="SteamID/Link Here"></input>
-                    <div className="buttonArea" onClick={handleSearch}>
-                        <button className="searchButton">Search</button>
+                    <input type="text" onChange={onInputChange} className="searchInput" value={searchInput} placeholder="SteamID/Link Here"></input>
+                    <div className="buttonArea">
+                        <button className="searchButton" onClick={handleSearch}>Search</button>
                     </div>
+                    <hr className="separator"/>
+                    {hasClicked ? <Result data={searchValue} clicks={clickCount} /> : ''}
                 </div>
             </div>
         </section>
