@@ -23,3 +23,10 @@ export const fetchObservedList = async () =>{
         return {status: error.response.status}
     })
 }
+
+export const createUser = async (token) =>{
+    axios.post(apiUrl + '/api/createUser', null, {headers: {'Authorization': token}})
+    .catch((error)=>{
+        console.error(error.response);
+    })
+}

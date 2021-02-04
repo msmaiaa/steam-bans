@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {setUser} from '../../store/actions/user';
-
+import {createUser} from '../../utils/api';
 
 
 const SignUp = (props) =>{
@@ -22,6 +22,7 @@ const SignUp = (props) =>{
             const {token, ok, user} = event.data;
             if(ok){
                 localStorage.setItem("token", token);
+                createUser(token);
                 props.setUser(user);
             }
         })
