@@ -20,6 +20,6 @@ export const fetchObservedList = async () =>{
         return {status:doc.status, users: doc.data.docs}
     })
     .catch((error)=>{
-        console.log(error.response.status);
+        return {status: error.response.status}
     })
 }

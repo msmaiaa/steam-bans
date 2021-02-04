@@ -42,7 +42,6 @@ const Result = (props) =>{
             <p style={{textAlign:'center', marginTop:'15px', fontWeight:'bold', color:'red'}}>Couldn't find the profile</p>
         )
     }else{
-        let newDate = new Date(user.timecreated * 1000);
 
         return(
             <div className="results">
@@ -67,7 +66,7 @@ const Result = (props) =>{
                         </div>
                         <div className="results__field">
                             <div className="results__header-text">Created: </div>
-                            <p style={{fontWeight:'bold'}}>{formatDate(newDate)}</p>
+                            <p style={{fontWeight:'bold'}}>{formatDate(new Date(user.timecreated * 1000))}</p>
                         </div>
                     </div>
                 </div>
