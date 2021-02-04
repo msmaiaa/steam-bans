@@ -30,7 +30,7 @@ textarea:focus, input:focus, button:focus{
 
 .nav{
   background-color: #171A21;
-  height:5%;
+  height:50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -43,19 +43,30 @@ textarea:focus, input:focus, button:focus{
   height: 100%;
   display: flex;
   justify-content: space-between;
-}
-
-#navBtn{
-  height: 30px;
-  width: 150px;
-}
-
-#navTitle{
-  display: flex;
   align-items: center;
+}
+
+.navBtn{
+  color: white;
+  text-decoration: none;
+  margin-right: 15px;
+}
+
+.navBtn:visited, .navBtn:active{
+  color: white;
+  text-decoration: none;
+}
+
+.navBtn:hover{
+  cursor: pointer;
+}
+
+
+#navTitleText{
   color: white;
   font-size: 24px;
 }
+
 
 .navEnd{
   display: flex;
@@ -68,6 +79,7 @@ textarea:focus, input:focus, button:focus{
   width: 30px;
   border: 2px solid #47859D;
 }
+
 
 .home{
   width: 100%;

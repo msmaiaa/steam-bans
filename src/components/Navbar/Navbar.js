@@ -1,18 +1,30 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import SignUp from '../SignUp/SignUp';
+import {Link} from "react-router-dom";
+import {logoutUser} from '../../store/actions/user';
 
 const Navbar = (props) =>{
+
+    const handleLogout = () =>{
+        props.logoutUser();
+    }
 
     return(
         <nav className="nav">
             <ul className="navList">
                 <li id="navTitle">
-                    <p>steam-bans</p>
+                    <p id="navTitleText">steam-bans</p>
                 </li>
-                <li className="navEnd">
-                    {props.usr.loggedIn ? <img id="navImage" alt="userImage" src={props.usr.user.avatarmedium}></img> :
-                    <SignUp/>
+                <li>
+                    {props.usr.loggedIn ?
+                        <div  className="navEnd">
+                            <Link to="/list" className="navBtn">Tracked Users</Link>
+                            <a className="navBtn" onClick={handleLogout}>Logout</a>
+                            <img id="navImage" alt="userImage" src={props.usr.user.avatarmedium}></img>
+                        </div>
+                    :
+                        <SignUp/>
                     }
                 </li>
             </ul>
@@ -26,6 +38,10 @@ const mapStateToProps = state => {
     }
 }
 
-  
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        logoutUser: () => dispatch(logoutUser())
+    }
+}
 
-export default connect(mapStateToProps)(Navbar);
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

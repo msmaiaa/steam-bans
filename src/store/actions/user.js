@@ -3,6 +3,7 @@ import axios from 'axios';
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export const setUser = (payload) => ({ type: "SET_USER", payload})
+export const logoutUser = () => ({type: 'LOGOUT_USER'})
 
 export const autoLogin = () => dispatch =>{
     const token = localStorage.getItem('token');

@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {setUser} from '../../store/actions/user';
 
+
+
 const SignUp = (props) =>{
 
     const handleLogin = () =>{

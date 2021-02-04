@@ -12,6 +12,12 @@ const reducer = (state = initialState, action) =>{
                 loggedIn: true,
                 user: {...action.payload}
             }
+        case "LOGOUT_USER":
+            localStorage.removeItem("token");
+            return{
+                loggedIn: false,
+                user: {}
+            }
         default:
             return state;
     }

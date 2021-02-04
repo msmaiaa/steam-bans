@@ -8,9 +8,9 @@ import UsersList from './Pages/UsersList/UsersList';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
+  Route
 } from "react-router-dom";
-
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 function App(props) {
   useEffect(() => {
@@ -23,10 +23,8 @@ function App(props) {
         <Navbar/>
         <div className="pageContent"> 
           <Switch>
-            <Route path="/list">
-              <UsersList />
-            </Route>
-            <Route path="/">
+            <ProtectedRoute exact path="/list" isLoggedIn={props.usr.loggedIn} component={UsersList}/>
+            <Route exact path="/">
               <Home />
             </Route>
           </Switch>
@@ -43,5 +41,11 @@ const mapDispatchToProps = (dispatch) =>{
   }
 }
 
-export default connect(null, mapDispatchToProps)(App);
+const mapStateToProps = state =>{
+  return{
+    usr: state.usr
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 
