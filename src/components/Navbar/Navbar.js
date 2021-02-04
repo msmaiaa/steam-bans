@@ -14,7 +14,7 @@ const Navbar = (props) =>{
         <nav className="nav">
             <ul className="navList">
                 <li id="navTitle">
-                    <p id="navTitleText">steam-bans</p>
+                    <Link to="/" id="navTitleText">steam-bans</Link>
                 </li>
                 <li>
                     {props.usr.loggedIn ?

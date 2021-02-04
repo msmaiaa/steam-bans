@@ -22,7 +22,7 @@ const Result = (props) =>{
         setLoading(true);
         fetchUser(props.data)
         .then((res)=>{
-            if(res.status === '200'){
+            if(res.status === 200){
                 setUser(res.user);
                 setLoading(false);
             }else{
