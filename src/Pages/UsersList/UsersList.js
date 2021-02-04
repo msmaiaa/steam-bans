@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import { css } from "@emotion/core";
 import SyncLoader from "react-spinners/SyncLoader";
 import {connect} from 'react-redux';
-import {fetchObservedList} from '../../utils/api';
+import {fetchObservedList, deleteUser} from '../../utils/api';
 import {formatDate} from '../../utils/date';
 
 import Accordion from '@material-ui/core/Accordion';
@@ -22,6 +22,7 @@ const UsersList = (props) =>{
     const [isLoading, setLoading] = useState(true);
     const [hasUsers, setHasUsers] = useState(false);
     const [observedUsers, setObservedUsers] = useState([]); 
+    const [expanded, setExpanded] = useState(false);
     useEffect(() => {
         fetchObservedList()
         .then((list)=>{
@@ -40,8 +41,23 @@ const UsersList = (props) =>{
     },[observedUsers])
 
     const handleDelete = (index) =>{
-        console.log(observedUsers[index]);
+        deleteUser(observedUsers[index].steamid64)
+        .then((res)=>{
+            console.log(res)
+            if(res.status === 200){
+                let newArray = [...observedUsers];
+                newArray.splice(index,1)
+                setObservedUsers(newArray);
+            }else{
+                //todo
+            }
+        })
+
     }
+
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
 
     
     if(isLoading){
@@ -63,7 +79,7 @@ const UsersList = (props) =>{
                         <p className="users__title">Tracked Users</p>
                         {observedUsers.map((usr,index)=>{
                             return(
-                                <Accordion key={index}>
+                                <Accordion onChange={handleChange(index)} expanded={expanded === index} key={index}>
                                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                                         <img className="users__title-avatar" src={usr.avatar}/>
                                         <p className="users__title-text">{usr.personaname}</p>

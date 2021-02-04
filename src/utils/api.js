@@ -30,3 +30,14 @@ export const createUser = async (token) =>{
         console.error(error.response);
     })
 }
+
+export const deleteUser = async(steamid64) =>{
+    const token = localStorage.getItem('token');
+    return axios.delete(apiUrl + '/api/deleteObservedUser', {headers: {'Authorization': token}, data: {steamid64:steamid64}})
+    .then((res)=>{
+        return {status: res.status}
+    })
+    .catch((error)=>{
+        return {status: error.response}
+    })
+}
