@@ -5,11 +5,7 @@ import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import Home from './Pages/Home/Home';
 import UsersList from './Pages/UsersList/UsersList';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import {Switch, Route} from "react-router-dom";
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 function App(props) {
@@ -18,19 +14,17 @@ function App(props) {
   }, []);
 
   return (
-    <Router>
-      <div className="app">
-        <Navbar/>
-        <div className="pageContent"> 
-          <Switch>
-            <ProtectedRoute exact path="/list" isLoggedIn={props.usr.loggedIn} component={UsersList}/>
-            <Route exact path="/">
-              <Home />
-            </Route>
-          </Switch>
-        </div>
+    <div className="app">
+      <Navbar/>
+      <div className="pageContent"> 
+        <Switch>
+          <ProtectedRoute exact path="/list" isLoggedIn={props.usr.loggedIn} component={UsersList}/>
+          <Route exact path="/">
+            <Home />
+          </Route>
+        </Switch>
       </div>
-    </Router>
+    </div>
   );
 }
 

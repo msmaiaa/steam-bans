@@ -9,6 +9,10 @@ import thunk from 'redux-thunk'
 import {applyMiddleware} from 'redux';
 import userReducer from './store/reducers/user';
 
+import {
+  BrowserRouter as Router,
+} from "react-router-dom";
+
 const rootReducer = combineReducers({
   usr: userReducer
 })
@@ -20,7 +24,9 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </Provider>,
   document.getElementById('root')
 );
