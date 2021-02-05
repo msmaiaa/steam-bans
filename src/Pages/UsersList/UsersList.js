@@ -37,13 +37,9 @@ const UsersList = (props) =>{
         })
     }, [])
 
-    useEffect(()=>{
-    },[observedUsers])
-
     const handleDelete = (index) =>{
         deleteUser(observedUsers[index].steamid64)
         .then((res)=>{
-            console.log(res)
             if(res.status === 200){
                 let newArray = [...observedUsers];
                 newArray.splice(index,1)

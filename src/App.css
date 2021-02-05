@@ -262,6 +262,24 @@ display: flex;
   margin-bottom: 10px;
 }
 
+.results__btn-inList{
+  padding: 10px 20px;
+  background-color: grey;
+  color: black;
+  border-radius: 5px;
+}
+
+.results__btn-notInList{
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+}
+
+.results__btn-notInList:hover{
+  cursor: pointer;
+}
+
 .users__title{
   font-size: 24px;
   text-align: center;

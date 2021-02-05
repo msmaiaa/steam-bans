@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
 import { css } from "@emotion/core";
 import SyncLoader from "react-spinners/SyncLoader";
-import {fetchUser} from '../../utils/api';
+import {fetchUser, checkInList, createObservedUser} from '../../utils/api';
 import {formatDate} from '../../utils/date';
+import SignUp from '../../components/SignUp/SignUp';
 
 const override = css`
   display: block;
@@ -13,18 +15,40 @@ const override = css`
 
 const Result = (props) =>{
     const [isLoading, setLoading] = useState(true);
+    const [loadingAddUser, setLoadingAddUser] = useState(false);
     const [user, setUser] = useState(null);
     const [error, setError] = useState(false);
-    
+    const [userInList, setUserInList] = useState(false);
+
+    const handleTrackClick = () =>{
+        createObservedUser(user.steamid64)
+        .then((res)=>{
+            if(res.status === 200){
+                setLoadingAddUser(false);
+                setUserInList(true);
+            }else{
+                //todo popup error
+            }
+        })
+    }
 
     useEffect(()=>{
+        setUserInList(false);
+        setUser(null);
         setError(false);
         setLoading(true);
         fetchUser(props.data)
         .then((res)=>{
             if(res.status === 200){
-                setUser(res.user);
-                setLoading(false);
+                checkInList(res.user.steamid64)
+                .then((isInList)=>{
+                    if(isInList){
+                        setUserInList(true);
+                    }
+                    setUser(res.user);
+                    setLoading(false);
+                });
+
             }else{
                 setError(true);
                 setLoading(false);
@@ -87,10 +111,37 @@ const Result = (props) =>{
                     <input disabled type="text" value={user.profileurl} className="results__footer-result"></input>
 
                 </div>
+                <div className="results__btns">
+                    {props.usr.loggedIn ? 
+                    <div>
+                        {userInList ? 
+                        <button disabled className="results__btn-inList">Already tracking user</button>
+                        :
+                        <div>
+                            {!loadingAddUser ? 
+                                <button onClick={handleTrackClick} className="results__btn-notInList">Track user</button>
+                            :
+                                <SyncLoader color={'#47859D'} css={override} size={3} />
+                            }
+                        </div>
+                        
+                        }
+                    </div>
+                    :
+                    <SignUp/>
+                    }
+                </div>
             </div>
 
         )
     }
 }
 
-export default Result;
+const mapStateToProps = state => {
+    return{
+        usr: state.usr
+    }
+}
+
+
+export default connect(mapStateToProps, null)(Result);

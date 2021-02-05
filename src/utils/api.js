@@ -31,6 +31,17 @@ export const createUser = async (token) =>{
     })
 }
 
+export const createObservedUser = async(steamid64) =>{
+    const token = localStorage.getItem('token');
+    return axios.post(apiUrl + '/api/createObservedUser', {steamid64: steamid64}, {headers: {'Authorization': token}})
+    .then((res)=>{
+        return {status: res.status}
+    })
+    .catch((error)=>{
+        return {status: error.response.status}
+    })
+}
+
 export const deleteUser = async(steamid64) =>{
     const token = localStorage.getItem('token');
     return axios.delete(apiUrl + '/api/deleteObservedUser', {headers: {'Authorization': token}, data: {steamid64:steamid64}})
@@ -39,5 +50,17 @@ export const deleteUser = async(steamid64) =>{
     })
     .catch((error)=>{
         return {status: error.response}
+    })
+}
+
+export const checkInList = async(steamid64) =>{
+    const token = localStorage.getItem('token');
+    return axios.post(apiUrl + '/api/checkObservedUser', {steamid64: steamid64}, {headers: {'Authorization': token}})
+    .then((res)=>{
+        if(res.data.isObserving){
+            return true;
+        }else{
+            return false;
+        }
     })
 }
