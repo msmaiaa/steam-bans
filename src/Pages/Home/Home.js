@@ -21,7 +21,7 @@ export default function Home(){
     return(
         <section className="home">
             <div className="homeContent">
-                <h2 className="homeContent__title">Track steam users information.</h2>
+                <h2 className="homeContent__title">Track steam users.</h2>
                 <div className="card shadow-black">
                     <header>
                         <p className="homeContent__header-text">Welcome to <strong className="text-strong">steam-bans</strong>! This is a tool which allows you to track the ban status for any <strong className="text-strong">STEAMID</strong> and if you wish you can save it to a list. 

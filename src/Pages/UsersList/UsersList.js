@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect, useHistory} from 'react-router-dom';
 import { css } from "@emotion/core";
 import SyncLoader from "react-spinners/SyncLoader";
 import {connect} from 'react-redux';
@@ -19,11 +19,20 @@ const override = css`
 `;
 
 const UsersList = (props) =>{
+    const history = useHistory();
     const [isLoading, setLoading] = useState(true);
     const [hasUsers, setHasUsers] = useState(false);
     const [observedUsers, setObservedUsers] = useState([]); 
     const [expanded, setExpanded] = useState(false);
+    
     useEffect(() => {
+        const token = localStorage.getItem("token");
+        if(!token){
+            history.push('/');
+        }
+    }, [])
+
+    useEffect(()=>{
         fetchObservedList()
         .then((list)=>{
             if(list.status === 404){
@@ -35,7 +44,7 @@ const UsersList = (props) =>{
                 setObservedUsers(list.users);
             }
         })
-    }, [])
+    },[props.usr.loggedIn])
 
     const handleDelete = (index) =>{
         deleteUser(observedUsers[index].steamid64)
@@ -54,7 +63,6 @@ const UsersList = (props) =>{
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
-
     
     if(isLoading){
         return(

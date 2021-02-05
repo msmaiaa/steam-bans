@@ -2,7 +2,8 @@
 
 const initialState = {
     user: {},
-    loggedIn: false
+    loggedIn: false,
+    isLoading: true
 }
 
 const reducer = (state = initialState, action) =>{
@@ -10,6 +11,7 @@ const reducer = (state = initialState, action) =>{
         case "SET_USER":
             return{
                 loggedIn: true,
+                isLoading: false,
                 user: {...action.payload}
             }
         case "LOGOUT_USER":

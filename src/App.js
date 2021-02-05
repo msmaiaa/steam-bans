@@ -18,7 +18,7 @@ function App(props) {
       <Navbar/>
       <div className="pageContent"> 
         <Switch>
-          <ProtectedRoute exact path="/list" isLoggedIn={props.usr.loggedIn} component={UsersList}/>
+          <ProtectedRoute exact path="/list" isLoggedIn={props.usr.loggedIn} isLoading={props.usr.isLoading} component={UsersList}/>
           <Route exact path="/">
             <Home />
           </Route>
@@ -37,7 +37,7 @@ const mapDispatchToProps = (dispatch) =>{
 
 const mapStateToProps = state =>{
   return{
-    usr: state.usr
+    usr: state.usr,
   }
 }
 
