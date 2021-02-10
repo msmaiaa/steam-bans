@@ -30,6 +30,16 @@ export const createUser = async (token) =>{
         console.error(error.response);
     })
 }
+export const getUserInfo = async () =>{
+    const token = localStorage.getItem("token");
+    return axios.get(apiUrl + '/api/getUserInfo', {headers: {'Authorization': token}})
+    .then((res)=>{
+        return {status: 200, user: res.data.user}
+    })
+    .catch((error)=>{
+        console.error(error.response);
+    })
+}
 
 export const createObservedUser = async(steamid64) =>{
     const token = localStorage.getItem('token');
@@ -62,5 +72,27 @@ export const checkInList = async(steamid64) =>{
         }else{
             return false;
         }
+    })
+}
+
+export const testHook = async(url) =>{
+    const token = localStorage.getItem('token');
+    return axios.post(apiUrl + '/discord/test', {discordHook: url}, {headers: {'Authorization': token}})
+    .then((res)=>{
+        return {status: res.status}
+    })
+    .catch((error)=>{
+        return {status: error.response.status}
+    })
+}
+
+export const updateUser = async(sendDiscord, discordHook) =>{
+    const token = localStorage.getItem('token');
+    return axios.patch(apiUrl + '/api/updateUser', {sendDiscord:sendDiscord, discordHook:discordHook}, {headers: {'Authorization': token}})
+    .then((res)=>{
+        return {status: res.status}
+    })
+    .catch((error)=>{
+        return {status: error.response.status}
     })
 }

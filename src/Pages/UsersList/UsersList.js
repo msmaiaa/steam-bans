@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Link, Redirect, useHistory} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import { css } from "@emotion/core";
 import SyncLoader from "react-spinners/SyncLoader";
 import {connect} from 'react-redux';
-import {fetchObservedList, deleteUser} from '../../utils/api';
+import {fetchObservedList, deleteUser, getUserInfo, testHook, updateUser} from '../../utils/api';
+import {webhookRegex} from '../../utils/regex';
 import {formatDate} from '../../utils/date';
 
 import Accordion from '@material-ui/core/Accordion';
@@ -24,7 +25,9 @@ const UsersList = (props) =>{
     const [hasUsers, setHasUsers] = useState(false);
     const [observedUsers, setObservedUsers] = useState([]); 
     const [expanded, setExpanded] = useState(false);
-    
+    const [sendDiscord, setSendDiscord] = useState(false);
+    const [discordHook, setDiscordHook] = useState('');
+    const [isValidHook, setValidHook] = useState(false);
     useEffect(() => {
         const token = localStorage.getItem("token");
         if(!token){
@@ -44,7 +47,21 @@ const UsersList = (props) =>{
                 setObservedUsers(list.users);
             }
         })
+        getUserInfo()
+        .then((res)=>{
+            if(res.status === 200){
+                setSendDiscord(res.user.sendDiscord);
+                setDiscordHook(res.user.discordHook);
+            }else{
+                //todo
+            }
+            
+        })
     },[props.usr.loggedIn])
+
+    useEffect(()=>{
+        webhookRegex.test(discordHook) ? setValidHook(true) : setValidHook(false);
+    },[discordHook])
 
     const handleDelete = (index) =>{
         deleteUser(observedUsers[index].steamid64)
@@ -63,6 +80,24 @@ const UsersList = (props) =>{
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
+
+    const onInputChange = (event) =>{
+        setDiscordHook(event.target.value);
+    }
+
+    const handleHookClick = () =>{
+        updateUser(sendDiscord, discordHook)
+        .then((res)=>{
+            console.log(res)
+        })
+    }
+
+    const handleTestClick = () =>{
+        testHook(discordHook)
+        .then((res)=>{
+            console.log(res)
+        })
+    }
     
     if(isLoading){
         return(
@@ -132,6 +167,30 @@ const UsersList = (props) =>{
                                 </Accordion>
                             )
                         })}
+                        <div className="users__notifications-area">
+                            <p className="users__notifications-title">
+                                Send discord notification?
+                                <input type="checkbox" checked={sendDiscord} onChange={()=>setSendDiscord(!sendDiscord)} style={{marginLeft:'10px'}}/>
+                            </p>
+                            {sendDiscord ? 
+                            <div className="users__notifications-input-div">
+                                <p className="users__notifications-text">DISCORD WEBHOOK URL</p>
+                                <input type="text" className="searchInput users__notifications-input" onChange={onInputChange} value={discordHook} placeholder="Url"/>
+                                <div>
+                                    {isValidHook ?
+                                        <div>
+                                            <button onClick={handleHookClick} className="users__notifications-btn-valid">Save</button>
+                                            <button onClick={handleTestClick} className="users__notifications-btn-test">Test</button>
+                                        </div>
+                                        :
+                                        <button disabled className="users__notifications-btn-invalid">Invalid Url</button>
+                                    }
+                                </div>
+                            </div>
+                            :
+                            ''
+                            }
+                        </div>
                     </div>
                     }
                 </div>

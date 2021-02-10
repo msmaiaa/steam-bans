@@ -18,6 +18,10 @@ textarea:focus, input:focus, button:focus{
   outline: none;
 }
 
+button:hover{
+  cursor: pointer;
+}
+
 .app{
   min-height: 100vh;
   background-color: #1B2838;
@@ -161,6 +165,7 @@ textarea:focus, input:focus, button:focus{
   color: #9e9e9e;
   height: 30px;
   padding-left: 15px;
+  border-radius: 5px;
 }
 
 .buttonArea{
@@ -265,7 +270,7 @@ display: flex;
 .results__btn-inList{
   padding: 10px 20px;
   background-color: grey;
-  color: black;
+  color: rgb(58, 58, 58);
   border-radius: 5px;
 }
 
@@ -348,4 +353,57 @@ display: flex;
 
 .deleteBtn:hover{
   cursor: pointer;
+}
+
+.users__notifications-area{
+  display: flex;
+  flex-direction: column;
+}
+
+.users__notifications-title{
+  font-size: 18px;
+  text-align: center;
+  font-weight: 400;
+  margin: 25px 0;
+}
+
+.users__notifications-input-div{
+  display: flex;
+  flex-direction: column;
+}
+
+.users__notifications-input{
+  width: 80%;
+  margin-bottom: 10px;
+}
+
+.users__notifications-text{
+  font-size: 16px;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.users__notifications-btn-invalid{
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-top: 10px;
+  background-color: grey;
+  color: rgb(58, 58, 58);
+}
+
+.users__notifications-btn-valid{
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.users__notifications-btn-test{
+  padding: 10px 20px;
+  background-color: #357097;
+  color: white;
+  border-radius: 5px;
+  margin-left: 10px;
+  font-weight: bold;
 }

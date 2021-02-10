@@ -1,0 +1,1 @@
+export const webhookRegex = new RegExp(/^.*(discord|discordapp)\.com\/api\/webhooks\/([\d]+)\/([a-zA-Z0-9_-]+)$/);
