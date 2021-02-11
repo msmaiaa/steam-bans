@@ -15,7 +15,7 @@ export const fetchUser = async (data) =>{
 
 export const fetchObservedList = async () =>{
     const token = localStorage.getItem('token');
-    return axios.get(apiUrl + '/api/getObservedUsersList', {headers: {'Authorization': token}})
+    return axios.get(apiUrl + '/api/getTrackedUsersList', {headers: {'Authorization': token}})
     .then((doc)=>{
         return {status:doc.status, users: doc.data.docs}
     })
@@ -43,7 +43,7 @@ export const getUserInfo = async () =>{
 
 export const createObservedUser = async(steamid64) =>{
     const token = localStorage.getItem('token');
-    return axios.post(apiUrl + '/api/createObservedUser', {steamid64: steamid64}, {headers: {'Authorization': token}})
+    return axios.post(apiUrl + '/api/createTrackedUser', {steamid64: steamid64}, {headers: {'Authorization': token}})
     .then((res)=>{
         return {status: res.status}
     })
@@ -54,7 +54,7 @@ export const createObservedUser = async(steamid64) =>{
 
 export const deleteUser = async(steamid64) =>{
     const token = localStorage.getItem('token');
-    return axios.delete(apiUrl + '/api/deleteObservedUser', {headers: {'Authorization': token}, data: {steamid64:steamid64}})
+    return axios.delete(apiUrl + '/api/deleteTrackedUser', {headers: {'Authorization': token}, data: {steamid64:steamid64}})
     .then((res)=>{
         return {status: res.status}
     })
@@ -65,7 +65,7 @@ export const deleteUser = async(steamid64) =>{
 
 export const checkInList = async(steamid64) =>{
     const token = localStorage.getItem('token');
-    return axios.post(apiUrl + '/api/checkObservedUser', {steamid64: steamid64}, {headers: {'Authorization': token}})
+    return axios.post(apiUrl + '/api/checkTrackedUser', {steamid64: steamid64}, {headers: {'Authorization': token}})
     .then((res)=>{
         if(res.data.isObserving){
             return true;

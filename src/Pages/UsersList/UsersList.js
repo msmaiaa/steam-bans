@@ -38,7 +38,7 @@ const UsersList = (props) =>{
     useEffect(()=>{
         fetchObservedList()
         .then((list)=>{
-            if(list.status === 404){
+            if(list.status === 404 || list.users.length < 1){
                 setLoading(false);
                 setHasUsers(false);
             }else{
