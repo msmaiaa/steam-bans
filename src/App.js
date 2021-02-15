@@ -19,6 +19,7 @@ function App(props) {
       <Helmet>
         <title>Steam-bans</title>
         <meta name="description" content="This is a tool which allows you to track the ban status for any STEAMID and if you wish you can save it to a list. Optionally you can get notified via discord or email when the user gets banned!" />
+        <meta name="google-site-verification" content={process.env.GOOGLE_VERIFICATION} />
       </Helmet>
       <Navbar/>
       <div className="pageContent"> 
