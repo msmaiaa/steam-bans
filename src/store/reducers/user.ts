@@ -6,7 +6,7 @@ const initialState = {
     isLoading: true
 }
 
-const reducer = (state = initialState, action) =>{
+const reducer = (state = initialState, action:any) =>{
     switch(action.type){
         case "SET_USER":
             return{

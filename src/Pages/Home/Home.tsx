@@ -3,8 +3,8 @@ import Result from '../../components/Result/Result';
 
 export default function Home(){
     const [searchInput, setSearchInput] = useState('');
-    const [searchValue, setSearchValue] = useState(null);
-    const [hasClicked, setClicked] = useState(null);
+    const [searchValue, setSearchValue] = useState('');
+    const [hasClicked, setClicked] = useState(false);
     const [clickCount, setClickCount] = useState(0);
 
     const handleSearch = () =>{
@@ -14,7 +14,7 @@ export default function Home(){
         setSearchInput('');
     }
 
-    const onInputChange = (event) =>{
+    const onInputChange = (event: any) =>{
         setSearchInput(event.target.value);
     }
 

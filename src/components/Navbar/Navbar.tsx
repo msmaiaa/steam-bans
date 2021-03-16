@@ -1,13 +1,18 @@
-import React from 'react';
 import {connect} from 'react-redux';
 import SignUp from '../SignUp/SignUp';
 import {Link} from "react-router-dom";
 import {logoutUser} from '../../store/actions/user';
+import {UserProp} from '../../models/User';
 
-const Navbar = (props) =>{
+type propTypes = {
+    logoutUser: Function,
+    usr: UserProp
+}
+
+const Navbar = ({logoutUser, usr}:propTypes) =>{
 
     const handleLogout = () =>{
-        props.logoutUser();
+        logoutUser();
     }
 
     return(
@@ -17,11 +22,11 @@ const Navbar = (props) =>{
                     <Link to="/" id="navTitleText">steam-bans</Link>
                 </li>
                 <li>
-                    {props.usr.loggedIn ?
+                    {usr.loggedIn ?
                         <div  className="navEnd">
                             <Link to="/list" className="navBtn">Tracked Users</Link>
                             <a className="navBtn" onClick={handleLogout}>Logout</a>
-                            <img id="navImage" alt="userImage" src={props.usr.user.avatarmedium}></img>
+                            <img id="navImage" alt="userImage" src={usr.user.avatarmedium}></img>
                         </div>
                     :
                         <SignUp/>
@@ -32,13 +37,13 @@ const Navbar = (props) =>{
     );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: any) => {
     return{
         usr: state.usr
     }
 }
 
-const mapDispatchToProps = (dispatch) =>{
+const mapDispatchToProps = (dispatch: any) =>{
     return{
         logoutUser: () => dispatch(logoutUser())
     }

@@ -4,7 +4,15 @@ import { css } from "@emotion/core";
 import SyncLoader from "react-spinners/SyncLoader";
 import {fetchUser, checkInList, createObservedUser} from '../../utils/api';
 import {formatDate} from '../../utils/date';
-import SignUp from '../../components/SignUp/SignUp';
+import SignUp from '../SignUp/SignUp';
+import {UserProp, TrackedUser} from '../../models/User'
+
+type PropTypes = {
+    usr?:UserProp,
+    clicks:any,
+    data:string
+}
+
 
 const override = css`
   display: block;
@@ -13,15 +21,15 @@ const override = css`
   margin-top: 20px;
 `;
 
-const Result = (props) =>{
+const Result = ({usr,clicks, data}:PropTypes) =>{
     const [isLoading, setLoading] = useState(true);
     const [loadingAddUser, setLoadingAddUser] = useState(false);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<TrackedUser | undefined>(undefined);
     const [error, setError] = useState(false);
     const [userInList, setUserInList] = useState(false);
 
     const handleTrackClick = () =>{
-        createObservedUser(user.steamid64)
+        createObservedUser(user!.steamid64)
         .then((res)=>{
             if(res.status === 200){
                 setLoadingAddUser(false);
@@ -34,13 +42,13 @@ const Result = (props) =>{
 
     useEffect(()=>{
         setUserInList(false);
-        setUser(null);
+        setUser(undefined);
         setError(false);
         setLoading(true);
-        fetchUser(props.data)
+        fetchUser(data)
         .then((res)=>{
             if(res.status === 200){
-                checkInList(res.user.steamid64)
+                checkInList(res.user!.steamid64)
                 .then((isInList)=>{
                     if(isInList){
                         setUserInList(true);
@@ -54,7 +62,7 @@ const Result = (props) =>{
                 setLoading(false);
             }
         })
-    },[props.clicks])
+    },[clicks])
 
 
     if(isLoading && !user && !error){
@@ -70,49 +78,49 @@ const Result = (props) =>{
         return(
             <div className="results">
                 <div className="results__header">
-                    <img className="results__pic" src={user.avatarfull} alt="Profile Picture"/>
+                    <img className="results__pic" src={user!.avatarfull} alt="Profile Picture"/>
                     <div className="results__header-info">
                         <div className="results__field">
                             <div className="results__header-text">Community Ban: </div>
-                            {user.CommunityBanned ? <p className="banned">BANNED</p> : <p className="notBanned">NOT BANNED</p>}
+                            {user!.CommunityBanned ? <p className="banned">BANNED</p> : <p className="notBanned">NOT BANNED</p>}
                         </div>
                         <div className="results__field">
                             <div className="results__header-text">Economy Ban: </div>
-                            {user.EconomyBan !== "none" ? <p className="banned">BANNED</p> : <p className="notBanned">NOT BANNED</p>}
+                            {user!.EconomyBan !== "none" ? <p className="banned">BANNED</p> : <p className="notBanned">NOT BANNED</p>}
                         </div>
                         <div className="results__field">
                             <div className="results__header-text">VAC Ban: </div>
-                            {user.VACBanned ? <p className="banned">BANNED</p> : <p className="notBanned">NOT BANNED</p>}
+                            {user!.VACBanned ? <p className="banned">BANNED</p> : <p className="notBanned">NOT BANNED</p>}
                         </div>
                         <div className="results__field">
                             <div className="results__header-text">Name: </div>
-                            <p style={{fontWeight:'bold'}}>{user.personaname}</p>
+                            <p style={{fontWeight:'bold'}}>{user!.personaname}</p>
                         </div>
                         <div className="results__field">
                             <div className="results__header-text">Created: </div>
-                            <p style={{fontWeight:'bold'}}>{formatDate(new Date(user.timecreated * 1000))}</p>
+                            <p style={{fontWeight:'bold'}}>{formatDate(new Date(user!.timecreated * 1000))}</p>
                         </div>
                     </div>
                 </div>
                 <div className="results__footer">
                     <div className="results__footer-text">STEAMID</div>
-                    <input disabled type="text" value={user.steamid} className="results__footer-result"></input>
+                    <input disabled type="text" value={user!.steamid} className="results__footer-result"></input>
 
 
                     <div className="results__footer-text">STEAMID3</div>
-                    <input disabled type="text" value={user.steamid3} className="results__footer-result"></input>
+                    <input disabled type="text" value={user!.steamid3} className="results__footer-result"></input>
 
 
                     <div className="results__footer-text">STEAMID64</div>
-                    <input disabled type="text" value={user.steamid64} className="results__footer-result"></input>
+                    <input disabled type="text" value={user!.steamid64} className="results__footer-result"></input>
 
 
                     <div className="results__footer-text">Profile</div>
-                    <input disabled type="text" value={user.profileurl} className="results__footer-result"></input>
+                    <input disabled type="text" value={user!.profileurl} className="results__footer-result"></input>
 
                 </div>
                 <div className="results__btns">
-                    {props.usr.loggedIn ? 
+                    {usr!.loggedIn ? 
                     <div>
                         {userInList ? 
                         <button disabled className="results__btn-inList">Already tracking user</button>
@@ -137,7 +145,7 @@ const Result = (props) =>{
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: any) => {
     return{
         usr: state.usr
     }

@@ -1,13 +1,13 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './App.tsx';
 import reportWebVitals from './reportWebVitals';
 import { combineReducers, createStore, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk'
 import {applyMiddleware} from 'redux';
-import userReducer from './store/reducers/user';
+
+import userReducer from './store/reducers/user.ts';
 
 import {
   BrowserRouter as Router,

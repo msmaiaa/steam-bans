@@ -8,10 +8,16 @@ import UsersList from './Pages/UsersList/UsersList';
 import {Switch, Route} from "react-router-dom";
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import {Helmet} from 'react-helmet'
+import {UserProp} from './models/User'
 
-function App(props) {
+type PropTypes = {
+  autoLogin: Function,
+  usr: UserProp
+}
+
+function App({autoLogin, usr}:PropTypes) {
   useEffect(() => {
-    props.autoLogin();
+    autoLogin();
   }, []);
 
   return (
@@ -23,7 +29,7 @@ function App(props) {
       <Navbar/>
       <div className="pageContent"> 
         <Switch>
-          <ProtectedRoute exact path="/list" isLoggedIn={props.usr.loggedIn} isLoading={props.usr.isLoading} component={UsersList}/>
+          <ProtectedRoute exact path="/list" isLoggedIn={usr.loggedIn} isLoading={usr.isLoading} component={UsersList}/>
           <Route exact path="/">
             <Home />
           </Route>
@@ -34,13 +40,13 @@ function App(props) {
 }
 
 
-const mapDispatchToProps = (dispatch) =>{
+const mapDispatchToProps = (dispatch: any) =>{
   return{
     autoLogin: () => dispatch(autoLogin())
   }
 }
 
-const mapStateToProps = state =>{
+const mapStateToProps = (state:any) =>{
   return{
     usr: state.usr,
   }

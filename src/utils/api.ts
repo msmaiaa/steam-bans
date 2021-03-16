@@ -1,8 +1,10 @@
 import axios from 'axios';
+import {TrackedUserResponse, ResponseList} from '../models/User';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-export const fetchUser = async (data) =>{
+
+export async function fetchUser(data:string):Promise<TrackedUserResponse>{
     const token = localStorage.getItem('token');
     return axios.post(apiUrl + '/api/fetchProfile', {data: data}, {headers: {'Authorization': token}})
     .then((doc)=>{
@@ -13,24 +15,24 @@ export const fetchUser = async (data) =>{
     })
 }
 
-export const fetchObservedList = async () =>{
+export async function fetchObservedList():Promise<ResponseList>{
     const token = localStorage.getItem('token');
     return axios.get(apiUrl + '/api/getTrackedUsersList', {headers: {'Authorization': token}})
     .then((doc)=>{
         return {status:doc.status, users: doc.data.docs}
     })
     .catch((error)=>{
-        return {status: error.response.status}
+        return {status: error.response.status, users: []}
     })
 }
 
-export const createUser = async (token) =>{
+export const createUser = async (token: string) =>{
     axios.post(apiUrl + '/api/createUser', null, {headers: {'Authorization': token}})
     .catch((error)=>{
         console.error(error.response);
     })
 }
-export const getUserInfo = async () =>{
+export async function getUserInfo ():Promise<any>{
     const token = localStorage.getItem("token");
     return axios.get(apiUrl + '/api/getUserInfo', {headers: {'Authorization': token}})
     .then((res)=>{
@@ -39,9 +41,10 @@ export const getUserInfo = async () =>{
     .catch((error)=>{
         console.error(error.response);
     })
+    
 }
 
-export const createObservedUser = async(steamid64) =>{
+export const createObservedUser = async(steamid64: string) =>{
     const token = localStorage.getItem('token');
     return axios.post(apiUrl + '/api/createTrackedUser', {steamid64: steamid64}, {headers: {'Authorization': token}})
     .then((res)=>{
@@ -52,7 +55,7 @@ export const createObservedUser = async(steamid64) =>{
     })
 }
 
-export const deleteUser = async(steamid64) =>{
+export const deleteUser = async(steamid64: string) =>{
     const token = localStorage.getItem('token');
     return axios.delete(apiUrl + '/api/deleteTrackedUser', {headers: {'Authorization': token}, data: {steamid64:steamid64}})
     .then((res)=>{
@@ -63,7 +66,7 @@ export const deleteUser = async(steamid64) =>{
     })
 }
 
-export const checkInList = async(steamid64) =>{
+export const checkInList = async(steamid64: string) =>{
     const token = localStorage.getItem('token');
     return axios.post(apiUrl + '/api/checkTrackedUser', {steamid64: steamid64}, {headers: {'Authorization': token}})
     .then((res)=>{
@@ -75,7 +78,7 @@ export const checkInList = async(steamid64) =>{
     })
 }
 
-export const testHook = async(url) =>{
+export const testHook = async(url: string) =>{
     const token = localStorage.getItem('token');
     return axios.post(apiUrl + '/discord/test', {discordHook: url}, {headers: {'Authorization': token}})
     .then((res)=>{
@@ -86,7 +89,7 @@ export const testHook = async(url) =>{
     })
 }
 
-export const updateUser = async(sendDiscord, discordHook) =>{
+export const updateUser = async(sendDiscord:boolean, discordHook: string) =>{
     const token = localStorage.getItem('token');
     return axios.patch(apiUrl + '/api/updateUser', {sendDiscord:sendDiscord, discordHook:discordHook}, {headers: {'Authorization': token}})
     .then((res)=>{

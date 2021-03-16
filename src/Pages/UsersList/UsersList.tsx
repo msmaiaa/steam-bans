@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import { css } from "@emotion/core";
 import SyncLoader from "react-spinners/SyncLoader";
@@ -6,11 +6,16 @@ import {connect} from 'react-redux';
 import {fetchObservedList, deleteUser, getUserInfo, testHook, updateUser} from '../../utils/api';
 import {webhookRegex} from '../../utils/regex';
 import {formatDate} from '../../utils/date';
+import {UserProp, ResponseList, TrackedUser} from '../../models/User'
 
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+type PropTypes = {
+    usr: UserProp
+}
 
 const override = css`
   display: block;
@@ -19,12 +24,12 @@ const override = css`
   margin-top: 20px;
 `;
 
-const UsersList = (props) =>{
+const UsersList = ({usr}:PropTypes) =>{
     const history = useHistory();
     const [isLoading, setLoading] = useState(true);
     const [hasUsers, setHasUsers] = useState(false);
-    const [observedUsers, setObservedUsers] = useState([]); 
-    const [expanded, setExpanded] = useState(false);
+    const [observedUsers, setObservedUsers] = useState<Array<TrackedUser>>([]); 
+    const [expanded, setExpanded] = useState(null);
     const [sendDiscord, setSendDiscord] = useState(false);
     const [discordHook, setDiscordHook] = useState('');
     const [isValidHook, setValidHook] = useState(false);
@@ -37,7 +42,7 @@ const UsersList = (props) =>{
 
     useEffect(()=>{
         fetchObservedList()
-        .then((list)=>{
+        .then((list:ResponseList)=>{
             if(list.status === 404 || list.users.length < 1){
                 setLoading(false);
                 setHasUsers(false);
@@ -57,13 +62,13 @@ const UsersList = (props) =>{
             }
             
         })
-    },[props.usr.loggedIn])
+    },[usr.loggedIn])
 
     useEffect(()=>{
         webhookRegex.test(discordHook) ? setValidHook(true) : setValidHook(false);
     },[discordHook])
 
-    const handleDelete = (index) =>{
+    const handleDelete = (index: number) =>{
         deleteUser(observedUsers[index].steamid64)
         .then((res)=>{
             if(res.status === 200){
@@ -77,11 +82,11 @@ const UsersList = (props) =>{
 
     }
 
-    const handleChange = (panel) => (event, isExpanded) => {
+    const handleChange = (panel:any) => (event:any, isExpanded:any) => {
         setExpanded(isExpanded ? panel : false);
     };
 
-    const onInputChange = (event) =>{
+    const onInputChange = (event:any) =>{
         setDiscordHook(event.target.value);
     }
 
@@ -116,7 +121,7 @@ const UsersList = (props) =>{
                     :
                     <div>
                         <p className="users__title">Tracked Users</p>
-                        {observedUsers.map((usr,index)=>{
+                        {observedUsers.map((usr: TrackedUser,index: number)=>{
                             return(
                                 <Accordion onChange={handleChange(index)} expanded={expanded === index} key={index}>
                                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -204,7 +209,7 @@ const UsersList = (props) =>{
 
 
 
-const mapStateToProps = state =>{
+const mapStateToProps = (state: any) =>{
     return{
         usr: state.usr
     }

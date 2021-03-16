@@ -1,4 +1,4 @@
-export function formatDate(date) {
+export function formatDate(date: Date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),

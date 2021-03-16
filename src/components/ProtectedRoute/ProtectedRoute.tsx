@@ -1,7 +1,15 @@
-import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-const ProtectedRoute = ({ component: Component, isLoggedIn, isLoading, ...rest }) => {
+
+type PropTypes = {
+  component: any,
+  isLoggedIn: boolean,
+  isLoading: boolean,
+  exact: boolean,
+  path: string
+}
+
+const ProtectedRoute = ({ component: Component, isLoggedIn, isLoading, ...rest }:PropTypes) => {
   return (
     <Route {...rest} render={
       props => {

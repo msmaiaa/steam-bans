@@ -1,10 +1,14 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {setUser} from '../../store/actions/user';
 import {createUser} from '../../utils/api';
+import {User} from '../../models/User';
 
+type PropTypes = {
+    setUser: Function
+}
 
-const SignUp = (props) =>{
+const SignUp = ({setUser}:PropTypes) =>{
 
     const handleLogin = () =>{
         const popupWindow = window.open(
@@ -12,7 +16,7 @@ const SignUp = (props) =>{
             "_blank",
             "width=800, height=600"
         );
-        if(window.focus) popupWindow.focus();
+        popupWindow!.focus();  
     }
 
     useEffect(() =>{
@@ -23,7 +27,7 @@ const SignUp = (props) =>{
             if(ok){
                 localStorage.setItem("token", token);
                 createUser(token);
-                props.setUser(user);
+                setUser(user);
             }
         })
     })
@@ -39,9 +43,9 @@ const SignUp = (props) =>{
 }
 
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: any) => {
     return {
-        setUser: userInfo => dispatch(setUser(userInfo))
+        setUser: (userInfo:User) => dispatch(setUser(userInfo))
     }
 }
 
